@@ -11,10 +11,10 @@ His books (esp. The Nature of Code) are fun too - will be working through those 
 
 The topics he covers overlap with a bunch of explorations I'm pursuing from other resources, like:
 
-> 10 PRINT
-> Fractals
-> Maze Generation
-> Raycasting
-> Cellular Automata
+- 10 PRINT
+- Fractals
+- Maze Generation
+- Raycasting
+- Cellular Automata
 
 It's educational to solve these problems multiple ways, in different languages.
