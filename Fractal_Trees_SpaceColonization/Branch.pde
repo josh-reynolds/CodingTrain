@@ -3,11 +3,18 @@ class Branch {
   public PVector pos;
   public PVector dir;
   public int count;
+  private PVector originalDir;
   
   Branch(Branch _parent, PVector _pos, PVector _dir){
+    parent = _parent;
     pos = _pos;
     dir = _dir;
-    parent = _parent;
+    originalDir = dir.copy();
+    count = 0;
+  }
+  
+  public void reset(){
+    dir = originalDir.copy();
     count = 0;
   }
   

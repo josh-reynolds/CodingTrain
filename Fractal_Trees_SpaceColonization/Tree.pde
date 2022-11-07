@@ -67,14 +67,12 @@ class Tree{
     for (int i = branches.size()-1; i >= 0; i--){
       Branch b = branches.get(i);
       if (b.count > 0){
-        b.dir.div(b.count);
-        Branch newBranch = new Branch(b,
-                                      PVector.add(b.pos, b.dir),
-                                      b.dir.copy());
-        branches.add(newBranch);                                      
-      } else {
-        branches.remove(b);   // enormous speedup so we don't recalculate every branch
-      }
+        b.dir.div(b.count+1);
+        branches.add(b.next());                                      
+      } 
+      b.reset();  // I initially implemented an else/remove clause
+                  // which worked - using the solution from the
+                  // video on a side git branch for comparison
     }
   }
 
