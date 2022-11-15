@@ -4,15 +4,18 @@
 
 // Another JavaScript video, needs conversion on the fly
 
-size(600, 600);
+// TO_DO: add some interactivity - zoom, navigate, rotate or remap color scales, screenshot
+
+size(1000, 1000);
 pixelDensity(1);
+colorMode(HSB);
 
 // subtler shading with higher values
-int maxiterations = 100; 
+int maxiterations = 200; 
 
 // zoomed out full set is between ~ -2.5 : 2.5
 float minval = -2.5;
-float maxval = 2.5;
+float maxval = 2.0;
 
 // he fiddles with jscript sliders, leaving that out
 
@@ -43,16 +46,21 @@ for (int x = 0; x < width; x++){
       n++;
     }
     
-    float bright = map(n, 0, maxiterations, 0, 1);
-    bright = map(sqrt(bright), 0, 1, 0, 255);
+    float hue = map(n, 0, maxiterations, 0, 1);
+    hue = map(sqrt(hue), 0, 1, 0, 50);
+    // mapping between 150 - 255 gives a magenta to blue scale
+    //                   0 - 125 is reds and yellows up to light yellow-green
+    //                   0 - 50  is just R + Y
+    // can reverse these mappings too
     
+    float bright = 255;
     if (n == maxiterations){
       bright = 0;
     }
     
     int pix = (x + y * width);
-    pixels[pix] = color(bright, bright, bright, 255);  // jscript version needs to separate channel values
-                                                       // Java pixels array uses color values instead
+    pixels[pix] = color(hue, 255, bright, 255);  // jscript version needs to separate channel values
+                                                 // Java pixels array uses color values instead
   }
 }
 updatePixels();
