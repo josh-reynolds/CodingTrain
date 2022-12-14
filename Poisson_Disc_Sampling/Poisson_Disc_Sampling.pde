@@ -4,44 +4,35 @@
 
 // JavaScript conversion
 
+import java.util.Map;
+
 float r = 10;
 float k = 30;
 float w = r / sqrt(2);
 int cols;
 int rows;
+
+boolean looping = true;
   
-ArrayList grid;
 ArrayList<PVector> active;
+HashMap<PVector,PVector> grid;
 
 void setup(){
   size(400, 400);
   cols = floor(width / w);
   rows = floor(height / w);
-  active = new ArrayList<PVector>();
   
   // STEP 0
-  grid = new ArrayList();
-  for (int i = 0; i < cols * rows; i++){
-    grid.add(-1);
-  }
+  active = new ArrayList<PVector>();
+  grid = new HashMap<PVector,PVector>();
   
   // STEP 1
-  float x = width/2;//random(width);
-  float y = height/2;//random(height);
+  float x = random(width);
+  float y = random(height);
   PVector pos = new PVector(x, y);
   
-  grid.set(coordsToIndex(pos.x, pos.y), pos);
+  grid.put(pixelToGrid(pos), pos);
   active.add(pos);
-  
-  //println("STARTING POINT");
-  //println("columns: " + cols);
-  //println("rows: " + rows);
-  //println("w: " + w);
-  //println("pos: " + pos);
-  //println("i: " + i);
-  //println("j: " + j);
-  //println("bucket: " + (i + j * cols));
-  //println("grid size: " + grid.size());
 }
 
 void draw(){
@@ -62,17 +53,19 @@ void draw(){
       int col = floor(sample.x / w);
       int row = floor(sample.y / w);
       
-      if (grid.get(coordsToIndex(sample.x, sample.y)).getClass() == PVector.class){
+      if (grid.get(new PVector(col, row)) != null ){
+        break;
+      }
+      
+      if (sample.x < 0 || sample.x > width || sample.y < 0 || sample.y > height){
         break;
       }
       
       boolean ok = true;
-      for (int i = -1; i <= 1; i++){
-        for (int j = -1; j <= 1; j++){
-          int index = (col + i) + (row + j) * cols;
-          if (index < 0 || index > grid.size()){ continue; }    // deal with bounds
-          if (grid.get(index).getClass() == PVector.class){     
-            PVector neighbor = (PVector)grid.get(index);
+      for (int i = col-1; i <= col+1; i++){
+        for (int j = row-1; j <= row+1; j++){   
+          if (grid.get(new PVector(i, j)) != null ){
+            PVector neighbor = (PVector)grid.get(new PVector(i, j));
             float d = pos.dist(neighbor);
             if (d < r){
               ok = false;
@@ -81,22 +74,14 @@ void draw(){
         }
       }
 
-      try{
-        if (ok && sample.x < width && sample.y < height){
-          grid.set(col + row * cols, sample);
-          active.add(sample);
-          found = true;
-          //break;
-        }
-      } catch(Exception e) {
-        println("active list size: " + active.size());
-        //println("EXCEPTION: " + e.toString());
-        //println("x: " + sample.x);
-        //println("y: " + sample.y);
-        //println("col: " + col);
-        //println("row: " + row);
-        //println("index: " + (col + row * cols));
+      if (ok){
+        grid.put(new PVector(col, row), sample);
+        active.add(sample);
+        found = true;
+        break;
       }
+
+      println("active list size: " + active.size());
     }
     
     if (!found){
@@ -106,36 +91,45 @@ void draw(){
 
   drawGrid();
 
-  for (int i = 0; i < grid.size(); i++){
-    if (grid.get(i).getClass() == PVector.class){
-      PVector p = (PVector)grid.get(i);
-      stroke(255);
-      strokeWeight(4);
-      point(p.x, p.y);
-    }
+  for (Map.Entry me : grid.entrySet()){
+    PVector p = (PVector)me.getValue();
+    stroke(255);
+    strokeWeight(4);
+    point(p.x, p.y);
   }
   
   for (PVector p : active){
     stroke(255, 0, 255);
-    strokeWeight(1);
+    strokeWeight(3);
     point(p.x, p.y);
   }
 }
 
+void mousePressed(){
+  if (looping){
+    noLoop();
+    looping = false;
+  } else {
+    loop();
+    looping = true;
+  }
+}
+
 void drawGrid(){
+  stroke(60);
+  strokeWeight(1);
+  
   for (int i = 1; i <= cols; i++){
-    stroke(150);
     line(i * w, 0, i * w, height);
   }
 
   for (int j = 1; j <= rows; j++){
-    stroke(60);
     line(0, j * w, width, j * w);
   }  
 }
 
-int coordsToIndex(float _x, float _y){
-  int i = floor(_x / w);
-  int j = floor(_y / w);
-  return i + j * cols;
+PVector pixelToGrid(PVector _point){
+  int col = floor(_point.x / w);
+  int row = floor(_point.y / w);
+  return new PVector(col, row);
 }
