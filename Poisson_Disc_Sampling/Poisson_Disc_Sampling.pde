@@ -6,7 +6,7 @@
 
 import java.util.Map;
 
-float r = 50;
+float r = 10;
 float k = 30;
 float w = r / sqrt(2);
 int cols;
@@ -71,7 +71,7 @@ void draw(){
         for (int j = row-1; j <= row+1; j++){   
           if (grid.get(new PVector(i, j)) != null ){
             PVector neighbor = (PVector)grid.get(new PVector(i, j));
-            float d = pos.dist(neighbor);
+            float d = sample.dist(neighbor);
             if (d < r){
               ok = false;
             }
