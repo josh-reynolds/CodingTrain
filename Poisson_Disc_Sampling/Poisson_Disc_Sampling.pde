@@ -6,7 +6,7 @@
 
 import java.util.Map;
 
-float r = 10;
+float r = 50;
 float k = 30;
 float w = r / sqrt(2);
 int cols;
@@ -38,12 +38,14 @@ void setup(){
 void draw(){
   background(0);
 
+  println("BEGIN isEMPTY LOOP ----------------");
   // STEP 2
   if (!active.isEmpty()){
-    int randIndex = floor(random(active.size()));
-    PVector pos = active.get(randIndex);
-    
+    int sampleIndex = floor(random(active.size()));
+    PVector pos = active.get(sampleIndex);
+        
     boolean found = false;
+    println("BEGIN SAMPLE LOOP ----------------");
     for (int n = 0; n < k; n++){
       PVector sample = PVector.random2D();           
       float mag = random(r, 2 * r);     
@@ -52,16 +54,19 @@ void draw(){
 
       int col = floor(sample.x / w);
       int row = floor(sample.y / w);
-      
+       
       if (grid.get(new PVector(col, row)) != null ){
-        break;
+        println("Sample cell is not empty");         
+        continue;
       }
       
       if (sample.x < 0 || sample.x > width || sample.y < 0 || sample.y > height){
-        break;
+        println("Sample off-canvas");
+        continue;
       }
       
       boolean ok = true;
+      float minSeparation = 2 * r;
       for (int i = col-1; i <= col+1; i++){
         for (int j = row-1; j <= row+1; j++){   
           if (grid.get(new PVector(i, j)) != null ){
@@ -70,25 +75,33 @@ void draw(){
             if (d < r){
               ok = false;
             }
+            if (d < minSeparation){
+              minSeparation = d;
+            }
           }
         }
       }
 
       if (ok){
         grid.put(new PVector(col, row), sample);
-        active.add(sample);
+        active.add(sample); 
         found = true;
+        println("Sample selected - min separation: " + minSeparation);
         break;
+      } else {
+        println("Sample too close to neighbors");
       }
-
       println("active list size: " + active.size());
     }
+    println("END SAMPLE LOOP ----------------");    
     
     if (!found){
-      active.remove(randIndex);
+      println("removing " + sampleIndex + " " + active.get(sampleIndex).toString());
+      active.remove(sampleIndex);
     }
   }
-
+  println("END isEMPTY LOOP ----------------");
+  
   drawGrid();
 
   for (Map.Entry me : grid.entrySet()){
