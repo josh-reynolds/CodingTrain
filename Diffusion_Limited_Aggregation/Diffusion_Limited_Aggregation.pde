@@ -6,7 +6,6 @@
 
 ArrayList<Walker> tree;
 ArrayList<Walker> walkers;
-float r = 4;
 
 void setup(){
   size(400, 400);
@@ -19,7 +18,6 @@ void setup(){
 
 void draw(){
   background(0);
-
 
   if (walkers.size() < 1000){
     walkers.add(new Walker());
@@ -39,6 +37,4 @@ void draw(){
   for (Walker w : tree){
     w.show();
   }
-  
-  println("Walkers: " + walkers.size());
 }
