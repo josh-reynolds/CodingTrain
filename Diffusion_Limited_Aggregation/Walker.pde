@@ -35,8 +35,34 @@ class Walker {
   }
   
   void show(){
-    stroke(255,0,0);
-    strokeWeight(2);
+    if (stuck){
+      stroke(255, 100);
+      strokeWeight(r * 2);
+    } else {
+      stroke(255,0,0);
+      strokeWeight(2);
+    }
     point(pos.x, pos.y);
+  }
+
+  PVector startLocation(){
+    int edge = floor(random(4));
+    float x;
+    float y;
+    
+    if (edge == 0){
+      x = random(0, width);
+      y = 0;
+    } else if (edge == 1){
+      x = width;
+      y = random(0, height);
+    } else if (edge == 2){
+      x = random(0, width);
+      y = height;
+    } else if (edge == 3){
+      x = 0;
+      y = random(0, height);
+    }
+    return new PVector(x, y);
   }
 }

@@ -21,7 +21,7 @@ void draw(){
   background(0);
 
 
-  if (walkers.size() < 10){
+  if (walkers.size() < 1000){
     walkers.add(new Walker());
   }
   
@@ -37,9 +37,7 @@ void draw(){
   }
   
   for (Walker w : tree){
-    stroke(255, 100);
-    strokeWeight(r * 2);
-    point(w.pos.x, w.pos.y);
+    w.show();
   }
   
   println("Walkers: " + walkers.size());
