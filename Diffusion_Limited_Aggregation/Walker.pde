@@ -14,13 +14,16 @@ class Walker {
   }
   
   void walk(){
-    //if (!stuck){
+      PVector toCenter = PVector.sub(new PVector(width/2, height/2), pos);
+      toCenter.normalize().div(2);
+      pos.add(toCenter);
+      
       PVector vel = PVector.random2D();
       pos.add(vel);
+          
       pos.x = constrain(pos.x, 0, width);
       pos.y = constrain(pos.y, 0, height);
       println("walking... (" + pos.x + ", " + pos.y + ")");
-    //}
   }
   
   boolean stuck(){
