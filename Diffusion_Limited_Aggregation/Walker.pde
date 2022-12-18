@@ -3,7 +3,8 @@ class Walker {
   boolean stuck;
   
   Walker(){
-    pos = new PVector(random(width), random(height));
+    //pos = new PVector(random(width), random(height));
+    pos = startLocation();
     stuck = false;
   }
   
@@ -62,6 +63,9 @@ class Walker {
     } else if (edge == 3){
       x = 0;
       y = random(0, height);
+    } else {
+      x = width/2;
+      y = height/2;
     }
     return new PVector(x, y);
   }
