@@ -4,14 +4,18 @@
 
 // JavaScript conversion
 
+PVector center;
 ArrayList<Walker> tree;
 ArrayList<Walker> walkers;
 
 void setup(){
   size(400, 400);
+  colorMode(HSB);
+
+  center = new PVector(width/2, height/2);
   
   tree = new ArrayList<Walker>();
-  tree.add(new Walker(width/2, height/2, true));
+  tree.add(new Walker(center.x, center.y, true));
 
   walkers = new ArrayList<Walker>();
 }
@@ -25,7 +29,7 @@ void draw(){
   
   for (int i = walkers.size() - 1; i >= 0; i--){
     Walker w = walkers.get(i);
-    if (!w.stuck()){
+    if (!w.isStuck()){
       w.walk();
       w.show();
     } else {

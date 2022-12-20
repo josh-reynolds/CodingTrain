@@ -2,17 +2,20 @@ class Walker {
   PVector pos;
   boolean stuck;
   float r;
+  color c;
   
   Walker(){
     pos = startLocation();
     stuck = false;
     r = 2;
+    c = color(100, 255, 255, 255);
   }
   
   Walker(float _x, float _y, boolean _s){
     pos = new PVector(_x, _y);
     stuck = _s;
     r = calculateSize();
+    c = calculateColor();
   }
   
   void walk(){
@@ -27,32 +30,39 @@ class Walker {
       pos.y = constrain(pos.y, 0, height);
   }
   
-  boolean stuck(){
+  boolean isStuck(){
     for (int i = 0; i < tree.size(); i++){
       Walker w = tree.get(i);
       if (w.pos.dist(pos) < (w.r + r)){
         stuck = true;
         r = calculateSize();
+        c = calculateColor();
         break;     
       }
     }
     return stuck;
   }
   
+  color calculateColor(){
+    float hue = map(distanceFromCenter(), 0, maxDistanceFromCenter(), 255, 0);
+    return color(hue, 255, 255, 100);
+  }
+  
   float calculateSize(){
-    float halfWidth = width/2;
-    float halfHeight = height/2;
-    float d = pos.dist(new PVector(halfWidth, halfHeight));
-    return map(d, 0, sqrt(halfWidth * halfWidth + halfHeight * halfHeight), 12, 1);
+    return map(distanceFromCenter(), 0, maxDistanceFromCenter(), 12, 1);
+  }
+  
+  float distanceFromCenter(){
+    return pos.dist(center);
+  }
+
+  float maxDistanceFromCenter(){
+    return sqrt(center.x * center.x + center.y * center.y);
   }
   
   void show(){
     strokeWeight(r);
-    if (stuck){
-      stroke(255, 100);
-    } else {
-      stroke(255, 0, 0);
-    }
+    stroke(c);
     point(pos.x, pos.y);
   }
 
