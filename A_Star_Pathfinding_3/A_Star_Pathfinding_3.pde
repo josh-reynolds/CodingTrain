@@ -67,7 +67,7 @@ void draw(){
       if (closedSet.contains(neighbor)){ continue; }
       if (neighbor.wall){ continue; }
       
-      int tempG = current.g++;
+      int tempG = current.g + 1;
       boolean newPath = false;
       if (openSet.contains(neighbor)){
         if (tempG < neighbor.g){ 
