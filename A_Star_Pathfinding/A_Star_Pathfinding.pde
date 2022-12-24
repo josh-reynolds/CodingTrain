@@ -65,7 +65,7 @@ void draw(){
     for (Cell neighbor : current.neighbors){
       if (closedSet.contains(neighbor)){ continue; }
       
-      int tempG = current.g++;
+      int tempG = current.g + 1;
       if (openSet.contains(neighbor)){
         if (tempG < neighbor.g){ neighbor.g = tempG; }
       } else {
