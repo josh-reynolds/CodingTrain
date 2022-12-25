@@ -50,8 +50,9 @@ class Cell {
     
     stroke(0);
     strokeWeight(1);
-    noStroke();
     //rect(col * cellWidth, row * cellHeight, cellWidth-1, cellHeight-1);
+    
+    noStroke();
     ellipseMode(CORNER);
     ellipse(col * cellWidth, row * cellHeight, cellWidth-1, cellHeight-1);
     
