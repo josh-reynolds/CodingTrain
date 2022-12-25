@@ -4,8 +4,8 @@
 
 // JavaScript conversion
 
-int cols = 5;
-int rows = 5;
+int cols = 25;
+int rows = 25;
 Cell[][] grid = new Cell[cols][rows];
 
 Cell start;
@@ -15,7 +15,7 @@ ArrayList<Cell> openSet = new ArrayList<Cell>();
 ArrayList<Cell> closedSet = new ArrayList<Cell>();
 ArrayList<Cell> path = new ArrayList<Cell>();
 
-boolean debug = true; // can produce a lot of output - best to reduce grid size when using
+boolean debug = false; // can produce a lot of output - best to reduce grid size when using
 
 void setup(){
   size(400, 400);

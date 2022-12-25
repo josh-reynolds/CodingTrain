@@ -26,7 +26,7 @@ class Cell {
     
     neighbors = new ArrayList<Cell>();
     
-    if (random(1) < 0.15){ wall = true; }
+    if (random(1) < 0.4){ wall = true; }
   }
   
   void linkNeighbors(){
@@ -54,7 +54,7 @@ class Cell {
     
     noStroke();
     ellipseMode(CORNER);
-    ellipse(col * cellWidth, row * cellHeight, cellWidth-1, cellHeight-1);
+    ellipse(col * cellWidth, row * cellHeight, cellWidth, cellHeight);
     
     if (previous != null){
       stroke(255);
@@ -62,6 +62,23 @@ class Cell {
            row * cellHeight + cellHeight/2,
            previous.col * cellWidth + cellWidth/2,
            previous.row * cellHeight + cellHeight/2);
+    }
+    
+    if (wall){
+      for (Cell n : neighbors){
+        if (n.wall){
+          if (col == n.col){
+            int direction = n.row - row;
+            float yOffset = row * cellHeight + cellHeight/4 + (direction * cellHeight/4);
+            rect(col * cellWidth, yOffset, cellWidth, cellHeight/2);
+          }
+          if (row == n.row){
+            int direction = n.col - col;
+            float xOffset = col * cellWidth + cellWidth/4 + (direction * cellWidth/4);
+            rect(xOffset, row * cellHeight, cellWidth/2, cellHeight);
+          }
+        }
+      }
     }
   }
   
