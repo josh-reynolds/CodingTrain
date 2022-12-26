@@ -4,8 +4,8 @@
 
 // JavaScript conversion
 
-int cols = 25;
-int rows = 25;
+int cols = 50;
+int rows = 50;
 Cell[][] grid = new Cell[cols][rows];
 
 Cell start;
@@ -118,9 +118,9 @@ void draw(){
     }
   }
   
-  //for (Cell c : closedSet){
-  //  c.show(color(255,0,0));
-  //}
+  for (Cell c : closedSet){
+    c.show(color(255,0,0,100));
+  }
   
   //for (Cell c : openSet){
   //  c.show(color(0,255,0));
