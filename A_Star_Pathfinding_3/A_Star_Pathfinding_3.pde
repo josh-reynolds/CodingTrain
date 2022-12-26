@@ -55,13 +55,6 @@ void draw(){
     if (debug){ println("Choosing " + current.toString()); }
     
     if (current == end){
-      Cell temp = current;
-      path.add(temp);
-      while (temp.previous != null){
-        path.add(temp.previous);
-        temp = temp.previous;
-      }
-
       println("DONE!");
       noLoop();
     }
@@ -106,6 +99,14 @@ void draw(){
         if (debug){ println("Updating neighbor " + neighbor.toString()); }
       }
     }    
+
+    Cell temp = current;
+    path.clear();
+    path.add(temp);
+    while (temp.previous != null){
+      path.add(temp.previous);
+      temp = temp.previous;
+    }
   } else {
     println("NO SOLUTION!");
     noLoop();
