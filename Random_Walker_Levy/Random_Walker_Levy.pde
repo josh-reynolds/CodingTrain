@@ -32,14 +32,30 @@ void draw(){
   
   redDelta = redDelta % 255;
   greenDelta = greenDelta % 255;
-  blueDelta = blueDelta % 255;
-  
-  dot.add(walk);
+  blueDelta = blueDelta % 255; 
+
   col = color(red(col) + redDelta,
               green(col) + greenDelta,
               blue(col) + blueDelta,
               50);
 
+  dot.add(walk);
+  if (dot.x < 0)     { 
+    dot.x = width + dot.x;
+    oldPosition.x = width;
+  }
+  if (dot.x > width) { 
+    dot.x = dot.x - width;
+    oldPosition.x = 0;
+  }
+  if (dot.y < 0)     { 
+    dot.y = height + dot.y;
+    oldPosition.y = height;
+  }
+  if (dot.y > height){ 
+    dot.y = dot.y - height;
+    oldPosition.y = 0;
+  }
 
   noStroke();
   fill(col);
