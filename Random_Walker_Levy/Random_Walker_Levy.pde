@@ -5,26 +5,46 @@
 // JavaScript conversion
 
 PVector dot;
+color col;
 
 void setup(){
-  background(51);
+  background(255);
   size(400, 400);
   dot = new PVector(width/2, height/2);
+  col = color(random(255), random(255), random(255), 50);
 }
 
 void draw(){
   PVector oldPosition = dot.copy();
   PVector walk = PVector.random2D();
 
+  int redDelta = floor(random(-5, 5)); 
+  int greenDelta = floor(random(-5, 5));
+  int blueDelta = floor(random(-5, 5));
+
   if (random(1) < 0.01){ 
-    walk.mult(random(15,35));
+    float scale = random(15, 35);
+    walk.mult(scale);
+    redDelta *= scale;
+    greenDelta *= scale;
+    blueDelta *= scale;
   }
+  
+  redDelta = redDelta % 255;
+  greenDelta = greenDelta % 255;
+  blueDelta = blueDelta % 255;
+  
   dot.add(walk);
+  col = color(red(col) + redDelta,
+              green(col) + greenDelta,
+              blue(col) + blueDelta,
+              50);
+
 
   noStroke();
-  fill(255,50);
+  fill(col);
   ellipse(dot.x, dot.y, 10, 10);
 
-  stroke(255);
+  stroke(0);
   line(dot.x, dot.y, oldPosition.x, oldPosition.y);
 }
