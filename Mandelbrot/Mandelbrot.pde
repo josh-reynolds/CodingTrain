@@ -19,6 +19,10 @@ void setup(){
   pixelDensity(1);
   colorMode(HSB);
   frameRate(1);
+
+  println("LEFT mouse click to zoom in.");
+  println("RIGHT mouse click to zoom out.");
+  println("CENTER mouse click to recenter (no zoom).");
   
   drawMandelbrot();
 }
@@ -72,9 +76,7 @@ void drawMandelbrot(){
 }
 
 void draw(){
-   stroke(255);
-   line(0, height/2, width, height/2);
-   line(width/2, 0, width/2, height);
+  // need a draw routine to respond to mouse events 
 }
 
 void mouseClicked(){ 
@@ -83,11 +85,27 @@ void mouseClicked(){
 
   float centerX = (maxvalX - minvalX)/2 + minvalX;
   float centerY = (maxvalY - minvalY)/2 + minvalY;
-    
-  minvalX = minvalX + a - centerX;
-  maxvalX = maxvalX + a - centerX;
-  minvalY = minvalY + b - centerY;
-  maxvalY = maxvalY + b - centerY;
-    
+  
+  float xZoom = (centerX - minvalX);
+  float yZoom = (centerY - minvalY);
+
+  if (mouseButton == LEFT){
+    xZoom /= 2;
+    yZoom /= 2;
+  }
+  if (mouseButton == RIGHT){
+    xZoom *= -1;
+    yZoom *= -1;
+  }
+  if (mouseButton == CENTER){
+    xZoom *= 0;
+    yZoom *= 0;
+  }
+  
+  minvalX = minvalX + a - centerX + xZoom;
+  maxvalX = maxvalX + a - centerX - xZoom;
+  minvalY = minvalY + b - centerY + yZoom;
+  maxvalY = maxvalY + b - centerY - yZoom;
+  
   drawMandelbrot();  
 }
