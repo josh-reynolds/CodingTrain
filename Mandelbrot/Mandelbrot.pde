@@ -73,6 +73,7 @@ void drawMandelbrot(){
       }
     }
   updatePixels();
+  println("Coordinates: " + minvalX + ", " + minvalY + " to " + maxvalX + ", " + maxvalY); 
 }
 
 void draw(){
