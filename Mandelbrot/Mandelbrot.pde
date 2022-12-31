@@ -23,6 +23,8 @@ void setup(){
   println("LEFT mouse click to zoom in.");
   println("RIGHT mouse click to zoom out.");
   println("CENTER mouse click to recenter (no zoom).");
+  println("SPACEBAR to save a screenshot (mandelbrot.png in script folder).");
+  println();
   
   drawMandelbrot();
 }
@@ -109,4 +111,11 @@ void mouseClicked(){
   maxvalY = maxvalY + b - centerY - yZoom;
   
   drawMandelbrot();  
+}
+
+void keyPressed(){
+  if (key == ' '){
+    save("mandelbrot.png");
+    println("Saving image to mandelbrot.png");    
+  }
 }
