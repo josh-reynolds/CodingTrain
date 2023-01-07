@@ -6,13 +6,15 @@
 
 // TO_DO: add some interactivity - zoom, navigate, rotate or remap color scales, screenshot
 
-int maxiterations = 200; // subtler shading with higher values
+int maxiterations = 400; // subtler shading with higher values
 
 // zoomed out full set is between ~ -2.25 : 2.25
 float minvalX = -2.25;
 float maxvalX = 2.25;
 float minvalY = -2.25;
 float maxvalY = 2.25;
+
+int zoomLevel = 0;
 
 void setup(){
   size(1000, 1000);
@@ -75,7 +77,7 @@ void drawMandelbrot(){
       }
     }
   updatePixels();
-  println("Coordinates: " + minvalX + ", " + minvalY + " to " + maxvalX + ", " + maxvalY); 
+  println("Coordinates: " + minvalX + ", " + minvalY + " to " + maxvalX + ", " + maxvalY + " Zoom: " + zoomLevel); 
 }
 
 void draw(){
@@ -95,10 +97,12 @@ void mouseClicked(){
   if (mouseButton == LEFT){
     xZoom /= 2;
     yZoom /= 2;
+    zoomLevel++;
   }
   if (mouseButton == RIGHT){
     xZoom *= -1;
     yZoom *= -1;
+    zoomLevel--;
   }
   if (mouseButton == CENTER){
     xZoom *= 0;
