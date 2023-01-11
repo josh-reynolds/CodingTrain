@@ -1,56 +1,43 @@
 // Coding Train
-// Coding Challenge 40.1 - Word Counter in JavaScript
-// https://www.youtube.com/watch?v=unm0BLor8aE&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=48
+// Coding Challenge 40.2 - Word Counter in Processing
+// https://www.youtube.com/watch?v=fxQ0B6BkfKo&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=49
 
-// Another JavaScript video, needs conversion on the fly
-// The following video appears to be the same thing in classic Java Processing
-// But I'm going to try conversion first and see how it goes... not too bad...
-
-import java.util.Map;
-import java.util.Collections;
-import java.util.Comparator;
+// Already did this from the previous video - seeing how his 'official' version compares
+// He uses IntDict, which is simpler than my HashMap solution
+// Going to check this in to the same folder/project as a later commit for comparison
 
 String inputFile = "input.txt";
-HashMap<String,Integer> wordcount;
-ArrayList<String> keys;
+IntDict counts;
 
 void setup(){
-  size(100,100);
-  noLoop();
-  
-  String[] tokens = splitTokens(loadText().toLowerCase()," .,;:-–!?/()[]\"\n"); 
-  wordcount = new HashMap<String,Integer>();
-  keys = new ArrayList<String>();
-  
-  for (String s : tokens){
-    if (wordcount.get(s) == null){
-      wordcount.put(s, 1);
-      keys.add(s);
-    } else {
-      wordcount.put(s, wordcount.get(s) + 1);
-    }
-  }
-
-  Collections.sort(keys, new CountComparator());
-  
-  for (String s : keys){
-    println(s + " : " + wordcount.get(s));
-  }
-}
-
-String loadText(){
+  size(1200,1200);
+  background(0);
+  counts = new IntDict();
   String[] lines = loadStrings(inputFile);
-  return join(lines, "\n");
-}
-
-class CountComparator implements Comparator<String>{
-  public int compare(String a, String b){
-    if (wordcount.get(a) == wordcount.get(b)){
-      return 0;
-    } else if (wordcount.get(a) > wordcount.get(b)){
-      return -1;
+  String allwords = join(lines, "\n");
+  String[] tokens = splitTokens(allwords," .,;:-–!?/()[]\"\n");
+  
+  for (int i = 0; i < tokens.length; i++){
+    String word = tokens[i].toLowerCase();
+    if (counts.hasKey(word)){
+      counts.increment(word);
     } else {
-      return 1;
+      counts.set(word,1);
     }
+  }
+
+  counts.sortValuesReverse();
+  
+  int[] values = counts.valueArray();
+  int max = values[0];
+  int min = values[values.length-1];
+  
+  String[] keys = counts.keyArray();
+  for (String s : keys){
+    int count = counts.get(s);
+    textSize(map(count,min,max,16,48));
+    float x = random(width);
+    float y = random(height);
+    text(s, x, y);
   }
 }
