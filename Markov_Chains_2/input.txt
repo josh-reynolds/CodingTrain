@@ -1,0 +1,66 @@
+Gravity's Rainbow
+Design Patterns
+Dungeon Master's Guide
+Land of Lisp
+Prisoner's Dilemma
+The Clockwork Rocket
+Unicorn Variations
+Paths of Glory
+The Fellowship of the Ring
+The Colossal Book of Mathematics
+The Ray Tracer Challenge
+The Pragmatic Programmer
+The Eyes of the Overworld
+The Sword of the Lictor
+Soldier in the Mist
+Freedom in the Galaxy
+Zero History
+Dead of Winter
+Expedition to the Barrier Peaks
+Fire, Fusion and Steel
+A Tour of the Calculus
+Game Programming Patterns
+The Nature of Code
+Foucault's Pendulum
+The Name of the Rose
+Memos from Purgatory
+Consider Phlebas
+Playing at the World
+A Tale of Two Cities
+King Lear
+The Nonborn King
+Last Call
+The Emperor's New Mind
+Guns, Germs and Steel
+A Clockwork Orange
+Love in the Time of Cholera
+The Road
+Learn You a Haskell for Great Good!
+Mazes for Programmers
+If Hemingway Wrote Javascript
+The Magic Machine
+The Tinkertoy Computer
+Literary Machines
+Starship Troopers
+The Stars Like Dust
+The Brothers Karamazov
+Conflict of Heroes
+Structure and Interpretation of Computer Programs
+Clojure for the Brave and True
+Mathematics and Physics for Programmers
+Slaughterhouse Five
+Cat's Cradle
+Gentleman Junkie
+Gödel, Escher, Bach: an Eternal Golden Braid
+Garage Band Theory
+Radio Free Albemuth
+Galactic Patrol
+The Way Things Work
+The Castle of the Otter
+Perdido Street Station
+Dinner at Deviant's Palace
+Death on the Installment Plan
+A Fire Upon the Deep
+Labyrinths
+The Little Schemer
+The Ringworld Engineers
