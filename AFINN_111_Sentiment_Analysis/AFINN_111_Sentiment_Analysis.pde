@@ -1,11 +1,10 @@
 // Coding Train
-// Coding Challenge 44.1 - AFINN-111 Sentiment Analysis, Part 1
-// https://www.youtube.com/watch?v=uw3GbsY_Pbc&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=55
+// Coding Challenge 44.2 - AFINN-111 Sentiment Analysis, Part 2
+// https://www.youtube.com/watch?v=VV1JmMYceJw&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=56
 
 // JavaScript conversion
-// He converts data to JSON, following suit here, though this could
-// also be handled via loadTable + Table objects
-
+// Part 1 was just the JSON handling, though I completed the analysis
+// Watching Part 2 to see if there are any tweaks to make here
 
 String JSONfile = "AFINN-111.json";
 String text = "input.txt";
@@ -20,12 +19,13 @@ void setup(){
   for (int i = 0; i < lines.length; i++){
     String[] tokens = splitTokens(lines[i], " ,.;:/()[]\"\n");
     for (int j = 0; j < tokens.length; j++){
-      words.add(tokens[j]);
+      words.add(tokens[j].toLowerCase());
     }
   }
 
   JSONObject afinn = loadJSONObject(JSONfile);
   int score = 0;
+  float comparative = 0.0;
   
   for (String w : words){
     if (!afinn.isNull(w)){
@@ -33,7 +33,8 @@ void setup(){
       score += afinn.getInt(w);
     }
   }
-  write(score);
+  comparative = (float)score / words.size();
+  write(score, comparative);
 }
 
 void convertOriginalToJSON(){
@@ -52,10 +53,12 @@ void convertOriginalToJSON(){
   saveJSONObject(json, JSONfile);
 }
 
-void write(Integer i){
-  textSize(64);
+void write(Integer i, Float f){
+  String txt = str(i) + "\n" + nfp(f,0,2);
+  
+  textSize(36);
   textAlign(CENTER, CENTER);
   fill(255);
   background(0);
-  text(str(i), width/2, height/2);
+  text(txt, width/2, height/2);
 }
