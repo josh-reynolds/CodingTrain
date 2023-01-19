@@ -18,8 +18,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.Comparator;
 
-HashMap<String,ArrayList> tweetCounts;
-
 String filePrefix = "POTUS";
 //String filePrefix = "FLOTUS";
 String CSVfile = filePrefix + ".csv";
@@ -30,7 +28,8 @@ void setup(){
   //convertCSVToJSON();
 
   JSONArray potusTweets = loadJSONArray(JSONfile);
-  tweetCounts = new HashMap<String,ArrayList>();
+  HashMap<String,ArrayList> tweetCounts = new HashMap<String,ArrayList>();
+  IntDict words = new IntDict();
   
   for (int i = 0; i < potusTweets.size(); i++){
     JSONObject json = potusTweets.getJSONObject(i);
@@ -43,13 +42,22 @@ void setup(){
     
     String key = timestamp.getMonth() + " " + timestamp.getYear();     
     if (tweetCounts.containsKey(key)){
-      tweetCounts.get(key).add(json.getString("txt"));
+      tweetCounts.get(key).add(json.getString("text"));
     } else {
       ArrayList text = new ArrayList();
-      text.add(json.getString("txt"));
+      text.add(json.getString("text"));
       tweetCounts.put(key, text);
-    }    
+    }
+    
+    String[] tokens = splitTokens(json.getString("text")," .,!\n");
+    for (String s : tokens){
+      words.increment(s.toLowerCase());
+    }
   }
+  
+  //for (String k : words.keyArray()){
+  //  println(k + " : " + words.get(k) );
+  //}
   
   ArrayList<String> months = new ArrayList<String>();
   for (String s : tweetCounts.keySet().toArray(new String[0])){
@@ -67,6 +75,9 @@ void setup(){
   for (int i = 0; i < months.size(); i++){
     float barHeight = map(tweetCounts.get(months.get(i)).size(), 0, maxtweets, 0, height - 20);
     rect(i * barWidth, height - barHeight, barWidth - 2, barHeight);
+  
+    
+
   }
 }
 
