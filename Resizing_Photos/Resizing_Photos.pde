@@ -28,7 +28,11 @@ void setup(){
 File[] getJPGFiles(){
   FilenameFilter filter = new FilenameFilter(){
     public boolean accept(File f, String name){
-      return name.endsWith("jpg");
+      if (name.endsWith("jpg") || name.endsWith("JPG")){
+        return true;
+      } else {
+        return false;
+      }
     }
   };
   return srcDir.listFiles(filter);
