@@ -24,29 +24,41 @@
 // All the above is a distraction from the main focus of course - this isn't a challenge about rendering fonts 
 //  (tangent - might want to respond to the Stack Overflow post with this code...)
 
+// I think the discrepancy with Stack Overflow is that it reduces all the points to simple vertices
+//   and connects with straight lines. Some of these are actually BEZIER_VERTEX or CURVE_VERTEX.
+
+// Also, FWIW, the P5.js textToPoints() seems to return many more points than my implementation here,
+//   which affects the visuals in this demo.
+
+// At very end of the video he mentions a library (Geomerative) that can do all this =/
+
+
 String s = "Spud";
 int size = 192;
 
 PFont font;
 TextShape text;
 
+ArrayList<Vehicle> vehicles;
+
 void setup(){
   size(600, 300);
 
   font = createFont("BAUHS93.TTF", size, true);
   text = new TextShape(s, font, size, 100, 200);
+
+  vehicles = new ArrayList<Vehicle>();
+  for (PVector p : text.points){
+    vehicles.add(new Vehicle(p.x, p.y));
+  }
 }
 
 void draw(){
-  background(51);  
+  background(51);
   
-  fill(255, 125, 0);
-  stroke(255);
-  shape(text.shape, text.xOffset, text.yOffset);
-
-  fill(255, 0, 0);
-  noStroke();
-  for (PVector p : text.points){
-    ellipse(p.x, p.y, 10, 10);
+  for (Vehicle v : vehicles){
+    v.behaviors();
+    v.update();
+    v.show();
   }
 }
