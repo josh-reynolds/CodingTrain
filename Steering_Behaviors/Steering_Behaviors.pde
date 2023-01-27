@@ -24,11 +24,11 @@
 // All the above is a distraction from the main focus of course - this isn't a challenge about rendering fonts 
 //  (tangent - might want to respond to the Stack Overflow post with this code...)
 
-PFont font;
-PShape text;
-
 String s = "Spud";
 int size = 192;
+
+PFont font;
+PShape text;
 
 float[] offsets;
 ArrayList<PVector> points;
@@ -36,8 +36,7 @@ ArrayList<PVector> points;
 void setup(){
   size(600, 300);
   font = createFont("BAUHS93.TTF", size, true);
-  offsets = new float[s.length()];
-  text = createTextShape(s);
+  text = createTextShape(s, font);
   points = getPoints(text, 100, 200);
 }
 
@@ -70,12 +69,13 @@ ArrayList<PVector> getPoints(PShape _s, float _x, float _y){    // top-left corn
   return a;
 }
 
-PShape createTextShape(String s){
+PShape createTextShape(String s, PFont f){
   PShape group = createShape(GROUP);
+  offsets = new float[s.length()];
   float offset = 0;
   for (int i = 0; i < s.length(); i++){
     char c = s.charAt(i);
-    PShape glyph = font.getShape(c);
+    PShape glyph = f.getShape(c);
     glyph.translate(offset, 0);
     offsets[i] = offset;
     offset += glyph.width;
