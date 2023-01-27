@@ -28,16 +28,13 @@ String s = "Spud";
 int size = 192;
 
 PFont font;
-PShape text;
-
-float[] offsets;
-ArrayList<PVector> points;
+TextShape text;
 
 void setup(){
   size(600, 300);
+
   font = createFont("BAUHS93.TTF", size, true);
-  text = createTextShape(s, font);
-  points = getPoints(text, 100, 200);
+  text = new TextShape(s, font, size, 100, 200);
 }
 
 void draw(){
@@ -45,42 +42,11 @@ void draw(){
   
   fill(255, 125, 0);
   stroke(255);
-  shape(text, 100, 200);
+  shape(text.shape, text.xOffset, text.yOffset);
 
   fill(255, 0, 0);
   noStroke();
-  for (PVector p : points){
+  for (PVector p : text.points){
     ellipse(p.x, p.y, 10, 10);
   }
-}
-
-ArrayList<PVector> getPoints(PShape _s, float _x, float _y){    // top-left corner
-  ArrayList<PVector> a = new ArrayList<PVector>();
-  float offset;
-  for (int i = 0; i < _s.getChildCount(); i++){
-    PShape c = _s.getChild(i);
-    offset = offsets[i];
-    for (int j = 0; j < c.getVertexCount(); j++){
-      float x = c.getVertex(j).x + _x + offset;
-      float y = c.getVertex(j).y + _y;
-      a.add(new PVector(x, y));
-    }
-  }
-  return a;
-}
-
-PShape createTextShape(String s, PFont f){
-  PShape group = createShape(GROUP);
-  offsets = new float[s.length()];
-  float offset = 0;
-  for (int i = 0; i < s.length(); i++){
-    char c = s.charAt(i);
-    PShape glyph = f.getShape(c);
-    glyph.translate(offset, 0);
-    offsets[i] = offset;
-    offset += glyph.width;
-    group.addChild(glyph);
-  }
-  group.disableStyle();
-  return group;
 }
