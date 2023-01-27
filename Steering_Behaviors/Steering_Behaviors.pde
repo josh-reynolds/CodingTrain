@@ -26,30 +26,48 @@
 
 PFont font;
 PShape text;
+
 String s = "Spud";
 int size = 192;
+
+float[] offsets;
+ArrayList<PVector> points;
 
 void setup(){
   size(600, 300);
   font = createFont("BAUHS93.TTF", size, true);
+  offsets = new float[s.length()];
   text = createTextShape(s);
-  
-  for (int i = 0; i < text.getChildCount(); i++){
-    PShape c = text.getChild(i);
-    for (int j = 0; j < c.getVertexCount(); j++){
-      //stroke(255,0,0);
-      //strokeWeight(4);
-      //point(c.getVertex(j).x + 100, c.getVertex(j).y + 200);
-    }
-  }
+  points = getPoints(text, 100, 200);
 }
 
 void draw(){
   background(51);  
   
-  fill(255,125,0);
+  fill(255, 125, 0);
   stroke(255);
   shape(text, 100, 200);
+
+  fill(255, 0, 0);
+  noStroke();
+  for (PVector p : points){
+    ellipse(p.x, p.y, 10, 10);
+  }
+}
+
+ArrayList<PVector> getPoints(PShape _s, float _x, float _y){    // top-left corner
+  ArrayList<PVector> a = new ArrayList<PVector>();
+  float offset;
+  for (int i = 0; i < _s.getChildCount(); i++){
+    PShape c = _s.getChild(i);
+    offset = offsets[i];
+    for (int j = 0; j < c.getVertexCount(); j++){
+      float x = c.getVertex(j).x + _x + offset;
+      float y = c.getVertex(j).y + _y;
+      a.add(new PVector(x, y));
+    }
+  }
+  return a;
 }
 
 PShape createTextShape(String s){
@@ -59,6 +77,7 @@ PShape createTextShape(String s){
     char c = s.charAt(i);
     PShape glyph = font.getShape(c);
     glyph.translate(offset, 0);
+    offsets[i] = offset;
     offset += glyph.width;
     group.addChild(glyph);
   }
