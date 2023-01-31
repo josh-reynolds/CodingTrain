@@ -1,8 +1,10 @@
 // Coding Train
 // Coding Challenge 62.1 - Plinko with Matter.js Part 1
 // Coding Challenge 62.2 - Plinko with Matter.js Part 2
+// Coding Challenge 62.3 - Plinko with Matter.js Part 3
 // https://www.youtube.com/watch?v=KakpnfDv_f0&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=79
 // https://www.youtube.com/watch?v=6s4MJcUyaUE&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=80
+// https://www.youtube.com/watch?v=jN-sW-SxNzk&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=81
 
 // JavaScript conversion
 
@@ -33,7 +35,7 @@ void setup(){
   Fisica.init(this);
   
   makeWorld();
-  makeBalls(100);
+  makeBalls(1);
   makePegs();
   makeBuckets();
 }
@@ -42,6 +44,10 @@ void draw(){
   background(51);
   world.step();
   world.draw();
+  
+  if (frameCount % 30 == 0){
+    makeBalls(1);
+  }
 }
 
 void makeWorld(){
@@ -53,9 +59,10 @@ void makeWorld(){
 void makeBalls(int count){
   for (int i = 0; i < count; i++){
     FCircle ball = new FCircle(10);
-    ball.setPosition(random(width), 0);
+    //ball.setPosition(random(width), 0);
+    ball.setPosition(width/2, 0);
     ball.setFillColor(color(255,125,0));
-    ball.setRestitution(0.55);
+    ball.setRestitution(0.35);
     ball.setName("ball");
     world.add(ball);
   }  
@@ -99,9 +106,9 @@ void contactStarted(FContact contact){
       FBody target = f1;
       if (f2.getName().equals("ball")){ target = f2; }
       if (random(1) < 0.5){
-        target.addImpulse(25, 0, 0, 0);
+        target.addImpulse(5, 0, 0, 0);
       } else {
-        target.addImpulse(-25, 0, 0, 0);    
+        target.addImpulse(-5, 0, 0, 0);    
       }      
     }
   }
