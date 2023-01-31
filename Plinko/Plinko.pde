@@ -1,6 +1,8 @@
 // Coding Train
 // Coding Challenge 62.1 - Plinko with Matter.js Part 1
+// Coding Challenge 62.2 - Plinko with Matter.js Part 2
 // https://www.youtube.com/watch?v=KakpnfDv_f0&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=79
+// https://www.youtube.com/watch?v=6s4MJcUyaUE&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=80
 
 // JavaScript conversion
 
@@ -31,7 +33,7 @@ void setup(){
   Fisica.init(this);
   
   makeWorld();
-  makeBalls(1);
+  makeBalls(100);
   makePegs();
   makeBuckets();
 }
@@ -40,10 +42,6 @@ void draw(){
   background(51);
   world.step();
   world.draw();
-  
-  if (frameCount % 60 == 0){
-    makeBalls(1);
-  }
 }
 
 void makeWorld(){
@@ -55,8 +53,7 @@ void makeWorld(){
 void makeBalls(int count){
   for (int i = 0; i < count; i++){
     FCircle ball = new FCircle(10);
-    //ball.setPosition(random(width), 0);
-    ball.setPosition(width/2, 0);
+    ball.setPosition(random(width), 0);
     ball.setFillColor(color(255,125,0));
     ball.setRestitution(0.55);
     ball.setName("ball");
@@ -68,7 +65,7 @@ void makePegs(){
   int pegSize = 20;
   int pegSpacing = pegSize * 3;
   for (int i = 0; i < width / pegSpacing; i++){
-    for (int j = 0; j < height / pegSpacing - 2; j++){
+    for (int j = 0; j < height / pegSpacing - 3; j++){
       FCircle peg = new FCircle(pegSize);
       int xOffset = (j % 2) * pegSpacing/2;
       peg.setPosition(pegSpacing * i + pegSpacing/2 + xOffset, 
