@@ -2,11 +2,18 @@
 // Coding Challenge 62.1 - Plinko with Matter.js Part 1
 // Coding Challenge 62.2 - Plinko with Matter.js Part 2
 // Coding Challenge 62.3 - Plinko with Matter.js Part 3
+// Coding Challenge 62.4 - Plinko with Matter.js Part 4
 // https://www.youtube.com/watch?v=KakpnfDv_f0&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=79
 // https://www.youtube.com/watch?v=6s4MJcUyaUE&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=80
 // https://www.youtube.com/watch?v=jN-sW-SxNzk&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=81
+// https://www.youtube.com/watch?v=CdBXmsrkaPs&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=82
 
 // JavaScript conversion
+
+// AIFF files from https://bigsoundbank.com
+// Had difficulty with wav/mp3 files from online - processing.sound couldn't decode
+
+// KNOWN ISSUE: once the sound effect has played ~300 times, it becomes distorted
 
 // The physics library conversion may be the most interesting/challenging piece here
 //  since he is using a JavaScript lib - giving Fisica a try (which is a wrapper around JBox2D)
@@ -26,13 +33,20 @@
 // Adding the "bounce force" workaround back in to address the issue
 
 import fisica.*;
+import processing.sound.*;
 
 FWorld world;
+SoundFile file;
+
+int playCount = 0;
 
 void setup(){
   size(600, 800);
   
   Fisica.init(this);
+
+  file = new SoundFile(this, "ding.aiff");
+  file.amp(0.2);  
   
   makeWorld();
   makeBalls(1);
@@ -45,9 +59,10 @@ void draw(){
   world.step();
   world.draw();
   
-  if (frameCount % 30 == 0){
+  if (frameCount % 60 == 0){
     makeBalls(1);
   }
+  println(playCount);
 }
 
 void makeWorld(){
@@ -103,13 +118,15 @@ void contactStarted(FContact contact){
   
   if (f1.getName() != null && f2.getName() != null){
     if (f1.getName().equals("peg") || f2.getName().equals("peg")){
+      file.play();
+      playCount++;
       FBody target = f1;
       if (f2.getName().equals("ball")){ target = f2; }
       if (random(1) < 0.5){
         target.addImpulse(5, 0, 0, 0);
       } else {
         target.addImpulse(-5, 0, 0, 0);    
-      }      
+      }
     }
   }
 }
