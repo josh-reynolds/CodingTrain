@@ -9,67 +9,81 @@
 
 // First issue - dropping a ball onto a peg straight on, and it balances rather than
 //  rolling off to one side. Tried playing with friction and other settings, no luck so far.
-//  Two options:
+//  Three options:
 //    * Offset the peg by a pixel, but that means the ball will always roll to the same side
 //    * Add a "bounce force" using contact events
 //    * Reducing ball size greatly reduces (if not eliminates) the issue - going with that
+
+// No, not solved, unfortunately. The random initial location was hiding the issue. If a 
+//  ball - even a very small one - is lined up exactly with a peg, it balances rather than rolls off.
+//  The physics are deterministic, too. If we set a timer to create a ball in the same position
+//  repeatedly, they all follow the same path, and land in the same bucket.
 
 import fisica.*;
 
 FWorld world;
 
-int plinkoSize = 20;
-int plinkoSpacing = plinkoSize * 3;
-
 void setup(){
-  size(600, 400);
+  size(600, 800);
   
   Fisica.init(this);
   
-  world = new FWorld();
-  world.setEdges();
-  world.setGravity(0, 500);
-
-  for (int i = 0; i < 100; i++){
-    FCircle ball;
-    ball = new FCircle(10);
-    world.add(ball);
-    ball.setPosition(random(width), 0);
-    ball.setFillColor(color(255,125,0));
-    ball.setRestitution(0.55);
-    ball.setName("ball");
-  }
-
-  for (int i = 0; i < width / plinkoSpacing; i++){
-    for (int j = 0; j < height / plinkoSpacing - 2; j++){
-      FCircle p = new FCircle(plinkoSize);
-      int xOffset = (j % 2) * plinkoSpacing/2;
-      p.setPosition(plinkoSpacing * i + plinkoSpacing/2 + xOffset, 
-                    plinkoSpacing * j + plinkoSpacing*2);
-      p.setStatic(true);
-      p.setName("plinko");
-      world.add(p);
-    }
-  }
-  
-  float boxSpacing = width/10;
-  int boxHeight = 50;
-  for (int i = 0; i < 10; i++){
-    FBox box = new FBox(10, boxHeight);
-    box.setFillColor(color(0, 125, 255));
-    box.setStatic(true);
-    box.setPosition(i * boxSpacing + boxSpacing/2, height-boxHeight/2);
-    world.add(box);
-  }
+  makeWorld();
+  makeBalls(100);
+  makePegs();
+  makeBuckets();
 }
 
 void draw(){
   background(51);
-  
   world.step();
   world.draw();
 }
 
+void makeWorld(){
+  world = new FWorld();
+  world.setEdges();
+  world.setGravity(0, 500);
+}
+
+void makeBalls(int count){
+  for (int i = 0; i < count; i++){
+    FCircle ball = new FCircle(10);
+    ball.setPosition(random(width), 0);
+    ball.setFillColor(color(255,125,0));
+    ball.setRestitution(0.55);
+    ball.setName("ball");
+    world.add(ball);
+  }  
+}
+
+void makePegs(){
+  int pegSize = 20;
+  int pegSpacing = pegSize * 3;
+  for (int i = 0; i < width / pegSpacing; i++){
+    for (int j = 0; j < height / pegSpacing - 2; j++){
+      FCircle peg = new FCircle(pegSize);
+      int xOffset = (j % 2) * pegSpacing/2;
+      peg.setPosition(pegSpacing * i + pegSpacing/2 + xOffset, 
+                      pegSpacing * j + pegSpacing*2);
+      peg.setStatic(true);
+      peg.setName("peg");
+      world.add(peg);
+    }
+  }
+}
+
+void makeBuckets(){
+  float boxSpacing = width/10;
+  int boxHeight = 50;
+  for (int i = 0; i < 10; i++){
+    FBox box = new FBox(10, boxHeight);
+    box.setPosition(i * boxSpacing + boxSpacing/2, height-boxHeight/2);
+    box.setFillColor(color(0, 125, 255));
+    box.setStatic(true);
+    world.add(box);
+  }
+}
 
 //// workaround for "balancing ball" issue
 //void contactStarted(FContact contact){
@@ -77,7 +91,7 @@ void draw(){
 //  FBody f2 = contact.getBody2();
   
 //  if (f1.getName() != null && f2.getName() != null){
-//    if (f1.getName().equals("plinko") || f2.getName().equals("plinko")){
+//    if (f1.getName().equals("peg") || f2.getName().equals("peg")){
 //      if (random(1) < 0.5){
 //        f1.addImpulse(50, 0, 0, 0);
 //      } else {
