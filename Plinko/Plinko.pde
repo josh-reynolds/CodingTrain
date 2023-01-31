@@ -19,6 +19,8 @@
 //  The physics are deterministic, too. If we set a timer to create a ball in the same position
 //  repeatedly, they all follow the same path, and land in the same bucket.
 
+// Adding the "bounce force" workaround back in to address the issue
+
 import fisica.*;
 
 FWorld world;
@@ -29,7 +31,7 @@ void setup(){
   Fisica.init(this);
   
   makeWorld();
-  makeBalls(100);
+  makeBalls(1);
   makePegs();
   makeBuckets();
 }
@@ -38,6 +40,10 @@ void draw(){
   background(51);
   world.step();
   world.draw();
+  
+  if (frameCount % 60 == 0){
+    makeBalls(1);
+  }
 }
 
 void makeWorld(){
@@ -49,7 +55,8 @@ void makeWorld(){
 void makeBalls(int count){
   for (int i = 0; i < count; i++){
     FCircle ball = new FCircle(10);
-    ball.setPosition(random(width), 0);
+    //ball.setPosition(random(width), 0);
+    ball.setPosition(width/2, 0);
     ball.setFillColor(color(255,125,0));
     ball.setRestitution(0.55);
     ball.setName("ball");
@@ -86,17 +93,19 @@ void makeBuckets(){
 }
 
 //// workaround for "balancing ball" issue
-//void contactStarted(FContact contact){
-//  FBody f1 = contact.getBody1();
-//  FBody f2 = contact.getBody2();
+void contactStarted(FContact contact){
+  FBody f1 = contact.getBody1();
+  FBody f2 = contact.getBody2();
   
-//  if (f1.getName() != null && f2.getName() != null){
-//    if (f1.getName().equals("peg") || f2.getName().equals("peg")){
-//      if (random(1) < 0.5){
-//        f1.addImpulse(50, 0, 0, 0);
-//      } else {
-//        f1.addImpulse(-50, 0, 0, 0);      
-//      }
-//    }
-//  }
-//}
+  if (f1.getName() != null && f2.getName() != null){
+    if (f1.getName().equals("peg") || f2.getName().equals("peg")){
+      FBody target = f1;
+      if (f2.getName().equals("ball")){ target = f2; }
+      if (random(1) < 0.5){
+        target.addImpulse(25, 0, 0, 0);
+      } else {
+        target.addImpulse(-25, 0, 0, 0);    
+      }      
+    }
+  }
+}
