@@ -7,6 +7,9 @@ class Display {
   
   int x1, x2, x3;
   int y1, y2, y3, y4, y5;
+
+  // encodings for digits 0 to 9
+  private int nums[] = {0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B};
   
   Display(int _top, int _left, int _width){
     top = _top;
@@ -26,27 +29,29 @@ class Display {
     y5 = top + segW + segL + segW + segL + segW / 2;
   }
   
-  void show(int _value){      
+  void show(int _value){
+    int digit = nums[_value];
+    
     //// A
-    fill(getColor(_value, 6));
+    fill(getColor(digit, 6));
     drawSegment(x2, y1, false);
     //// B
-    fill(getColor(_value, 5));
+    fill(getColor(digit, 5));
     drawSegment(x3, y2, true);
     //// C
-    fill(getColor(_value, 4));
+    fill(getColor(digit, 4));
     drawSegment(x3, y4, true);
     //// D
-    fill(getColor(_value, 3));
+    fill(getColor(digit, 3));
     drawSegment(x2, y5, false);
     //// E
-    fill(getColor(_value, 2));
+    fill(getColor(digit, 2));
     drawSegment(x1, y4, true);
     //// F
-    fill(getColor(_value, 1));
+    fill(getColor(digit, 1));
     drawSegment(x1, y2, true);
     //// G
-    fill(getColor(_value, 0));
+    fill(getColor(digit, 0));
     drawSegment(x2, y3, false);
   }
   

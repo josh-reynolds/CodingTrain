@@ -8,8 +8,6 @@
 //   page has changed since he recorded this - no longer has the explicit encoding table
 //   copying values below from the video version
 
-int nums[] = {0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B};
-
 int displayCount = 6;
 Display[] displays;
 
@@ -44,7 +42,6 @@ void draw(){
   String s = (hour + minute + second);
   
   for (int i = 0; i < displayCount; i++){
-    int digit = nums[int(s.substring(i, i+1))];
-    displays[i].show(digit);
+    displays[i].show(int(s.substring(i, i+1)));
   }
 }
