@@ -8,7 +8,7 @@
 //   page has changed since he recorded this - no longer has the explicit encoding table
 //   copying values below from the video version
 
-Display display;
+Display display1, display2;
 
 int nums[] = {0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B};
  
@@ -17,12 +17,14 @@ void setup(){
   background(50);
   frameRate(2);
   
-  display = new Display(40, 80, 175);
+  display1 = new Display(40,  80, 120);
+  display2 = new Display(40, 220, 120);
 }
 
 void draw(){
   background(50);
   
   int counter = frameCount % nums.length;
-  display.show(nums[counter]);
+  display1.show(nums[counter]);
+  display2.show(nums[counter]);
 }
