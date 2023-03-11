@@ -17,7 +17,7 @@ void setup(){
   background(50);
   frameRate(2);
   
-  display = new Display(125, 25, 40, 80);
+  display = new Display(40, 80, 175);
 }
 
 void draw(){

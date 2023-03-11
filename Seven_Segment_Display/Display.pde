@@ -8,13 +8,12 @@ class Display {
   int x1, x2, x3;
   int y1, y2, y3, y4, y5;
   
-  int disWidth, disHeight;
-  
-  Display(int _segmentLength, int _segmentWidth, int _top, int _left){
-    segL = _segmentLength;
-    segW = _segmentWidth;
+  Display(int _top, int _left, int _width){
     top = _top;
-    left = _left;    
+    left = _left;  
+    
+    segL = _width * 5 / 7;
+    segW = segL / 5;
 
     x1 = left + segW / 2;
     x2 = left + segW + segL / 2;
@@ -25,9 +24,6 @@ class Display {
     y3 = top + segW + segL + segW / 2;
     y4 = top + segW + segL + segW + segL / 2;
     y5 = top + segW + segL + segW + segL + segW / 2;
-    
-    disWidth  = _segmentWidth * 2 + _segmentLength;
-    disHeight = _segmentWidth * 3 + _segmentLength * 2; 
   }
   
   void show(int _value){      
@@ -52,11 +48,6 @@ class Display {
     //// G
     fill(getColor(_value, 0));
     drawSegment(x2, y3, false);
-    
-    //stroke(255);
-    //noFill();
-    //rectMode(CORNER);
-    //rect(left, top, disWidth, disHeight);
   }
   
   void drawSegment(int _x, int _y, boolean _vertical){
